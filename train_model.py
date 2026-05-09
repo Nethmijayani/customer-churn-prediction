@@ -76,3 +76,6 @@ with open("model/feature_columns.pkl", "wb") as f:
 
 print("\nModel saved to model/churn_model.pkl")
 print("Features saved to model/feature_columns.pkl")
+
+
+
