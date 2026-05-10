@@ -50,7 +50,7 @@ df["Churn_Probability"] = model.predict_proba(X)[:, 1]
 df["Risk_Level"] = pd.cut(
     df["Churn_Probability"],
     bins=[0, 0.4, 0.7, 1.0],
-    labels=["🟢 Low Risk", "🟡 Medium Risk", "🔴 High Risk"]
+    labels=["Low Risk", "Medium Risk", "High Risk"]
 )
 
 # dashboard header and KPI
@@ -61,9 +61,9 @@ st.markdown("---")
 
 #KPI cards
 total = len(df)
-high_risk  = len(df[df["Risk_Level"] =="🔴 High Risk"])
-med_risk   = len(df[df["Risk_Level"] == "🟡 Medium Risk"])
-low_risk   = len(df[df["Risk_Level"] == "🟢 Low Risk"])
+high_risk  = len(df[df["Risk_Level"] =="High Risk"])
+med_risk   = len(df[df["Risk_Level"] == "Medium Risk"])
+low_risk   = len(df[df["Risk_Level"] == "Low Risk"])
 churn_rate = df["Churn"].mean() * 100
 
 col1, col2, col3, col4, col5 = st.columns(5)
