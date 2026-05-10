@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
-import shap
 import pickle
 import matplotlib.pyplot as plt
 
@@ -125,4 +124,46 @@ fig3 =px.bar(
     color_continuous_scale="Reds"
 )
 st.plotly_chart(fig3, use_container_width=True)
+
+st.markdown("---")
+st.subheader("High Risk Customers")
+
+high_risk_df =df[df["Risk_Level"]== "High Risk"]
+
+st.dataframe(
+    high_risk_df[
+        ["CustomerID", "Churn_Probability", "Risk_Level"]
+    ].sort_values(
+        "Churn_Probability",
+        ascending= False
+    ),
+    use_container_width=True
+)
+
+csv = high_risk_df.to_csv(index=False)
+
+st.download_button(
+    label="📥 Download High Risk Customers",
+    data=csv,
+    file_name="high_risk_customers.csv",
+    mime="text/csv"
+)
+
+#Single Customer Prediction
+st.markdown("---")
+st.subheader("Customer Prediction Explorer")
+
+customer_id =st.selectbox(
+    "Select Customer ID",
+    df["CustomerID"].unique()
+)
+customer_data = df[df["CustomerID"] == customer_id]
+
+st.write(customer_data)
+
+customer_x = customer_data[feature_columns]
+
+prob = model.predict_proba(customer_x)[:, 1][0]
+
+st.metric("Churn Probability", f"{prob*100:2f}%")
 
